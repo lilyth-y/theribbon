@@ -1,0 +1,92 @@
+[
+  {
+    "id": "10",
+    "family": "falling_cube",
+    "label": "폴링 큐브",
+    "in_day": true,
+    "groom": "노성민",
+    "bride": "양다은",
+    "file": "content/videos/depth/10-falling_cube.mp4",
+    "poster": "10-노성민-양다은/couple-10-ribbon-aisle.jpg"
+  },
+  {
+    "id": "03",
+    "family": "carousel_3d",
+    "label": "입체 캐러셀",
+    "in_day": true,
+    "groom": "정도윤",
+    "bride": "한지민",
+    "file": "content/videos/depth/03-carousel_3d.mp4",
+    "poster": "03-정도윤-한지민/couple-03-hanbok.jpg"
+  },
+  {
+    "id": "05",
+    "family": "accumulate_cards",
+    "label": "쌓이는 카드",
+    "in_day": true,
+    "groom": "윤우진",
+    "bride": "배채원",
+    "file": "content/videos/depth/05-accumulate_cards.mp4",
+    "poster": "05-윤우진-배채원/couple-05-staircase.jpg"
+  },
+  {
+    "id": "06",
+    "family": "cube_fly",
+    "label": "큐브 플라이",
+    "in_day": true,
+    "groom": "장현우",
+    "bride": "신나연",
+    "file": "content/videos/depth/06-cube_fly.mp4",
+    "poster": "06-장현우-신나연/couple-06-candle-reception.jpg"
+  },
+  {
+    "id": "02",
+    "family": "parallax_sphere",
+    "label": "패럴랙스",
+    "in_day": true,
+    "groom": "박민재",
+    "bride": "최수아",
+    "file": "content/videos/depth/02-parallax_sphere.mp4",
+    "poster": "02-박민재-최수아/couple-02-ivory-chapel.jpg"
+  },
+  {
+    "id": "01",
+    "family": "page_turn",
+    "label": "페이지 턴",
+    "in_day": false,
+    "groom": "이서준",
+    "bride": "김하은",
+    "file": "content/videos/depth/01-page_turn.mp4",
+    "poster": "01-이서준-김하은/couple-01-classic-hall.jpg"
+  },
+  {
+    "id": "07",
+    "family": "vertical_slide",
+    "label": "세로 슬라이드",
+    "in_day": false,
+    "groom": "조준호",
+    "bride": "임소율",
+    "file": "content/videos/depth/07-vertical_slide.mp4",
+    "poster": "07-조준호-임소율/couple-07-first-look.jpg"
+  },
+  {
+    "id": "04",
+    "family": "light_sweep",
+    "label": "라이트 스윕",
+    "in_day": false,
+    "groom": "강시우",
+    "bride": "오예린",
+    "file": "content/videos/depth/04-light_sweep.mp4",
+    "poster": "04-강시우-오예린/couple-04-garden-terrace.jpg"
+  },
+  {
+    "id": "08",
+    "family": "cinematic_zoom",
+    "label": "시네마틱 줌",
+    "in_day": false,
+    "groom": "한태민",
+    "bride": "문유진",
+    "file": "content/videos/depth/08-cinematic_zoom.mp4",
+    "poster": "08-한태민-문유진/couple-08-autumn.jpg"
+  }
+]

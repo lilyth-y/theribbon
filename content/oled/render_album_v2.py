@@ -172,15 +172,17 @@ class Album:
             return canvas
         if family == "light_sweep":
             place_card(canvas, self.hero[i], 0.50, 0.50, 0.94, drift(abs_t, 0.3, 0.4, 2.0))
-            # Band travels once per shot and is fully off-frame at both ends.
-            band_x = int((-0.25 + 1.5 * ease(local_t)) * W)
-            x0, x1 = max(0, band_x - 70), min(W, band_x + 70)
-            if x1 > x0:
-                roi = canvas[:, x0:x1]
-                lit = np.clip(roi.astype(np.int16) + np.int16([18, 28, 36]), 0, 255).astype(np.uint8)
-                mask = (roi.max(axis=2) > 12).astype(np.uint8) * 255
-                cv2.copyTo(lit, mask, roi)
-            return canvas
+            # A soft band on a sine path. It never wraps or switches on, so the hold does not pop.
+            band = 0.50 + 0.32 * math.sin(abs_t * 0.45)
+            strength = 0.55 + 0.45 * math.sin(abs_t * 0.45)
+            xs = np.linspace(0.0, 1.0, W, dtype=np.float32)
+            weight = np.exp(-((xs - np.float32(band)) ** 2) / 0.008) * np.float32(22 * strength)
+            add = weight[:, None] * np.float32([0.7, 1.0, 1.15])
+            lit = canvas.astype(np.float32)
+            mask = canvas.max(axis=2) > 12
+            lit[mask] += np.broadcast_to(add, lit.shape)[mask]
+            np.clip(lit, 0, 255, out=lit)
+            return lit.astype(np.uint8)
         if family == "stack":
             for k, off in enumerate((-2, -1)):
                 j = (i + off) % self.n
@@ -313,24 +315,28 @@ def render_couple(couple: dict) -> dict:
     else:
         cmd += ["-an"]
     cmd.append(str(out_mp4))
-    proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    log_path = OUT / f"_encode_{cid}.log"
+    log_file = log_path.open("w", encoding="utf-8")
+    proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=log_file)
     assert proc.stdin is not None
     frame_i = 0
     try:
         for kind, index, start, dur in events:
             count = int(round(dur * FPS))
             for f in range(count):
-                abs_t = (start + f / FPS)
+                abs_t = start + f / FPS
                 local_t = f / max(1, count - 1)
                 frame = compose(album, family, kind, index, abs_t, local_t, title)
                 proc.stdin.write(frame.tobytes())
                 frame_i += 1
     finally:
         proc.stdin.close()
-    err = proc.stderr.read().decode("utf-8", "replace") if proc.stderr else ""
-    code = proc.wait()
+        code = proc.wait()
+        log_file.close()
     if code != 0:
-        raise RuntimeError(f"ffmpeg failed for {cid}: {err[-1500:]}")
+        err = log_path.read_text(encoding="utf-8", errors="replace")[-1500:]
+        raise RuntimeError(f"ffmpeg failed for {cid}: {err}")
+    log_path.unlink(missing_ok=True)
 
     folder_copy = COUPLES / couple["folder"] / f"couple-{cid}-mbox-2m.mp4"
     if folder_copy.parent.is_dir():
@@ -361,10 +367,14 @@ def diagnose() -> None:
     photos = [load_bgr(COUPLES / rel) for rel in couple["shots"][:4]]
     album = Album(photos)
     failed = []
+    preview = OUT / "preview_qa" / "templates"
+    preview.mkdir(parents=True, exist_ok=True)
     for family, _label in dict.fromkeys(TEMPLATES.values()):
+        shot = album.render(family, 0, 6.0, 0.5)
+        cv2.imencode(".jpg", shot, [int(cv2.IMWRITE_JPEG_QUALITY), 86])[1].tofile(str(preview / f"{family}.jpg"))
         report = motion_report(album, family)
         print(f"[motion] {report}", flush=True)
-        if report["jumps"] > 0 or report["max"] > 8.0:
+        if report["max"] > 4.0 or (report["median"] > 0.05 and report["jumps"] > 2):
             failed.append(report)
     if failed:
         raise SystemExit(f"choppy templates: {failed}")

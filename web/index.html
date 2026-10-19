@@ -116,7 +116,7 @@
       position: relative;
     }
     .oled-top {
-      flex: 1.25 1 0;
+      flex: 1.12 1 0;
       min-height: 0;
       margin: 8px 8px 0;
       display: flex;
@@ -129,13 +129,29 @@
       background: #111;
       color: #f7f1e8;
       border-radius: 2px;
+      position: relative;
+      overflow: hidden;
     }
+    .oled-film {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 22%;
+      display: none;
+      background: #000;
+    }
+    .oled-top.playing { padding: 0; }
+    .oled-top.playing .oled-film.is-on { display: block; }
+    .oled-top.playing #top-title,
+    .oled-top.playing #top-kicker { display: none; }
     .oled-top strong { font-family: "Gowun Batang", serif; font-size: 26px; font-weight: 700; }
     .oled-top span { color: var(--gold-soft); font-size: 13px; letter-spacing: 0.08em; }
     .oled-top.blank { background: #1a1a1a; }
     .oled-top.blank strong, .oled-top.blank span { color: transparent; }
     .void {
-      flex: 0.72 1 0;
+      flex: 0.88 1 0;
       min-height: 0;
       margin: 0 16px;
       display: flex;
@@ -143,6 +159,11 @@
       align-items: center;
       justify-content: flex-end;
       padding-bottom: 16px;
+    }
+    .void.day {
+      justify-content: stretch;
+      margin-top: 8px;
+      padding-bottom: 10px;
     }
     .schedule {
       width: 100%;
@@ -168,10 +189,67 @@
       gap: 8px;
       font-size: 14px;
       color: rgba(247, 241, 232, 0.45);
+      position: relative;
+      padding: 2px 4px 2px 16px;
+      border-radius: 3px;
+    }
+    .row::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      margin-top: -3px;
+      border-radius: 50%;
+      background: rgba(247, 241, 232, 0.2);
     }
     .row.now { color: #f7f1e8; }
+    .row.now::before {
+      background: #ffe7a8;
+      box-shadow: 0 0 8px 3px rgba(255, 214, 120, 0.95);
+    }
     .row.now .time { color: var(--gold-soft); }
     .row .time { font-variant-numeric: tabular-nums; }
+    .schedule.day {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      gap: 6px;
+      padding: 12px 10px;
+      justify-content: center;
+      position: relative;
+    }
+    .schedule.day .row { font-size: 15px; padding: 5px 8px 5px 18px; }
+    .schedule.day .row.now {
+      color: #fff6df;
+      background: rgba(255, 214, 140, 0.2);
+      box-shadow: inset 0 0 22px rgba(255, 214, 150, 0.55), 0 0 14px rgba(255, 196, 110, 0.28);
+    }
+    .schedule.day .row.now::before {
+      background: #fff6d8;
+      box-shadow: 0 0 12px 5px rgba(255, 228, 160, 1);
+    }
+    .schedule.day .row.now .time { color: #fff1c9; text-shadow: 0 0 10px rgba(255, 214, 140, 0.9); }
+    .runbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-top: 12px;
+    }
+    .runbar button {
+      font: inherit;
+      font-size: 14px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .runbar button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+    #run-clock { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 14px; }
     .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 8px; }
     .tabs button {
       font: inherit;
@@ -227,6 +305,19 @@
       background: #111;
     }
     figure figcaption, .film-card p { margin: 8px 0 0; font-size: 14px; color: var(--muted); }
+    .hall-grid figure.paper { padding: 12px; }
+    .shot { position: relative; }
+    .example-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #1c1915;
+      color: #f7f1e8;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
     .film-card video { aspect-ratio: 9 / 16; object-fit: cover; }
     footer { padding: 28px 0 64px; color: var(--muted); font-size: 14px; }
     @media (min-width: 861px) {
@@ -249,6 +340,7 @@
         gap: 10px;
         white-space: nowrap;
       }
+      .schedule.day .row { font-size: 17px; }
       h1 { font-size: clamp(44px, 4.2vw, 68px); }
     }
     @media (max-width: 860px) {
@@ -290,14 +382,22 @@
         <div class="device-wrap" id="screen">
           <div class="device-label"><span>상부 55인치 OLED</span><span>하부 식순은 별도 화면</span></div>
           <div class="stand" aria-live="polite">
-            <div class="oled-top" id="oled-top">
-              <span id="top-kicker">14:00 앨범</span>
-              <strong id="top-title">김○○ · 이○○</strong>
+            <div class="oled-top playing" id="oled-top">
+              <video id="top-a" class="oled-film is-on" playsinline muted preload="auto"></video>
+              <video id="top-b" class="oled-film" playsinline muted preload="auto"></video>
+              <span id="top-kicker">11:00 앨범</span>
+              <strong id="top-title"></strong>
             </div>
             <div class="void">
               <div class="schedule" id="oled-bottom"></div>
             </div>
             <div class="base"></div>
+          </div>
+          <div class="runbar">
+            <button type="button" id="run-toggle">일시정지</button>
+            <button type="button" id="run-restart">처음부터</button>
+            <button type="button" id="run-sound">소리 켜기</button>
+            <span id="run-clock">0:00 / 2:30</span>
           </div>
           <div class="tabs" role="tablist" aria-label="시나리오">
             <button type="button" role="tab" id="tab-ceremony" aria-selected="true" aria-controls="scene-note">예식</button>
@@ -313,70 +413,118 @@
     <div class="wrap">
       <section class="block" id="places">
         <h2>홀별 예상 배치</h2>
-        <p class="muted">W웨딩시티 로비 사진을 바탕으로, 상부 55인치 OLED와 하부 식순 화면이 서는 위치를 예상한 이미지입니다. 실제 기둥과 가구 위치와는 다를 수 있습니다. 시각은 예시입니다.</p>
+        <p class="muted">설치 사진이 아닙니다. 홀 로비에 식순 화면이 서는 위치를 가늠한 예시입니다. 화면 안의 시각, 이름, 커플 사진은 실제 예약이 아닙니다.</p>
         <div class="hall-grid">
           <figure class="paper">
-            <img src="media/sweet-garden-5f-display.jpg" alt="스위트가든 5층 로비에 상부 OLED와 하부 식순 화면이 선 예상 이미지">
-            <figcaption>스위트가든 5F. 샹들리에 왼쪽, 통로 옆.</figcaption>
+            <div class="shot">
+              <img src="media/place-sweet-garden.png" alt="예시. 스위트가든 5층 로비에 식순 화면이 선 예상 배치">
+              <span class="example-tag">예시</span>
+            </div>
+            <figcaption>예시 · 스위트가든 5F. 어두운 목재 벽 옆. 통로는 비워 둡니다.</figcaption>
           </figure>
           <figure class="paper">
-            <img src="media/convention-7f-display.jpg" alt="컨벤션홀 7층 로비에 상부 OLED와 하부 식순 화면이 선 예상 이미지">
-            <figcaption>컨벤션홀 7F. 넓은 바닥의 오른쪽. 입구 문은 막지 않습니다.</figcaption>
+            <div class="shot">
+              <img src="media/place-convention.png" alt="예시. 컨벤션홀 7층 로비에 식순 화면이 선 예상 배치">
+              <span class="example-tag">예시</span>
+            </div>
+            <figcaption>예시 · 컨벤션홀 7F. 우드 슬랫 벽 옆. 안내 데스크 앞은 비워 둡니다.</figcaption>
           </figure>
           <figure class="paper">
-            <img src="media/iris-4f-display.jpg" alt="아이리스홀 4층 로비에 상부 OLED와 하부 식순 화면이 선 예상 이미지">
-            <figcaption>아이리스홀 4F. 원형 조명과 안내 데스크 옆.</figcaption>
+            <div class="shot">
+              <img src="media/place-iris.png" alt="예시. 아이리스홀 4층 로비에 식순 화면이 선 예상 배치">
+              <span class="example-tag">예시</span>
+            </div>
+            <figcaption>예시 · 아이리스홀 4F. 입구 쪽 우드 슬랫 벽. 데스크 앞은 비워 둡니다.</figcaption>
           </figure>
           <figure class="paper">
-            <img src="media/grand-4f-display.jpg" alt="그랜드홀 4층 로비에 상부 OLED와 하부 식순 화면이 선 예상 이미지">
-            <figcaption>그랜드홀 4F. 화분 옆. 문 앞과 계단은 비워 둡니다.</figcaption>
+            <div class="shot">
+              <img src="media/place-grand.png" alt="예시. 그랜드홀 4층 로비에 식순 화면이 선 예상 배치">
+              <span class="example-tag">예시</span>
+            </div>
+            <figcaption>예시 · 그랜드홀 4F. 격자문 옆. 나선 계단은 비워 둡니다.</figcaption>
           </figure>
         </div>
       </section>
 
       <section class="block" id="films">
         <h2>만들어 둔 영상 콘텐츠</h2>
-        <p>커플 사진으로 이미 만들어 둔 세로 영상입니다. 상부 55인치 OLED에 올릴 앨범 영상의 샘플이며, 아래 빈 공간의 식순 화면과 함께 쓰는 쪽입니다. 인물은 제작용 예시이고, 더리본의 실제 예약이 아닙니다.</p>
+        <p>커플 사진으로 만든 상부 OLED용 앨범입니다. 식순은 이 영상에 넣지 않았습니다. 아래 빈 공간의 화면에서 따로 만듭니다. 인물은 제작용 예시이며 더리본의 실제 예약이 아닙니다. 앞은 폴링 큐브처럼 사진이 떨어져 돌고 겹치는 형태입니다. 화면을 가득 채우는 형태는 그 뒤에 두었습니다.</p>
         <div class="film-grid">
           <article class="film-card">
-            <video controls preload="metadata" poster="media/couples/01-이서준-김하은/couple-01-classic-hall.jpg" src="media/videos/01-이서준-김하은.mp4"></video>
-            <p>이서준 · 김하은</p>
+            <video controls preload="metadata" poster="media/couples/10-노성민-양다은/couple-10-ribbon-aisle.jpg" src="media/videos/depth/10-falling_cube.mp4?v=5"></video>
+            <p>노성민 · 양다은 · 폴링 큐브</p>
           </article>
           <article class="film-card">
-            <video controls preload="metadata" poster="media/couples/02-박민재-최수아/couple-02-ivory-chapel.jpg" src="media/videos/02-박민재-최수아.mp4"></video>
-            <p>박민재 · 최수아</p>
+            <video controls preload="metadata" poster="media/couples/03-정도윤-한지민/couple-03-hanbok.jpg" src="media/videos/depth/03-carousel_3d.mp4?v=5"></video>
+            <p>정도윤 · 한지민 · 입체 캐러셀</p>
           </article>
           <article class="film-card">
-            <video controls preload="metadata" poster="media/couples/03-정도윤-한지민/couple-03-hanbok.jpg" src="media/videos/03-정도윤-한지민.mp4"></video>
-            <p>정도윤 · 한지민</p>
+            <video controls preload="metadata" poster="media/couples/05-윤우진-배채원/couple-05-staircase.jpg" src="media/videos/depth/05-accumulate_cards.mp4?v=5"></video>
+            <p>윤우진 · 배채원 · 쌓이는 카드</p>
           </article>
           <article class="film-card">
-            <video controls preload="metadata" poster="media/couples/04-강시우-오예린/couple-04-garden-terrace.jpg" src="media/videos/04-강시우-오예린.mp4"></video>
-            <p>강시우 · 오예린</p>
+            <video controls preload="metadata" poster="media/couples/06-장현우-신나연/couple-06-candle-reception.jpg" src="media/videos/depth/06-cube_fly.mp4?v=5"></video>
+            <p>장현우 · 신나연 · 큐브 플라이</p>
           </article>
           <article class="film-card">
-            <video controls preload="metadata" poster="media/couples/05-윤우진-배채원/couple-05-staircase.jpg" src="media/videos/05-윤우진-배채원.mp4"></video>
-            <p>윤우진 · 배채원</p>
+            <video controls preload="metadata" poster="media/couples/02-박민재-최수아/couple-02-ivory-chapel.jpg" src="media/videos/depth/02-parallax_sphere.mp4?v=5"></video>
+            <p>박민재 · 최수아 · 패럴랙스</p>
           </article>
           <article class="film-card">
-            <video controls preload="metadata" poster="media/couples/06-장현우-신나연/couple-06-candle-reception.jpg" src="media/videos/06-장현우-신나연.mp4"></video>
-            <p>장현우 · 신나연</p>
+            <video controls preload="metadata" poster="media/couples/01-이서준-김하은/couple-01-classic-hall.jpg" src="media/videos/depth/01-page_turn.mp4?v=5"></video>
+            <p>이서준 · 김하은 · 페이지 턴</p>
           </article>
           <article class="film-card">
-            <video controls preload="metadata" poster="media/couples/07-조준호-임소율/couple-07-first-look.jpg" src="media/videos/07-조준호-임소율.mp4"></video>
-            <p>조준호 · 임소율</p>
+            <video controls preload="metadata" poster="media/couples/07-조준호-임소율/couple-07-first-look.jpg" src="media/videos/depth/07-vertical_slide.mp4?v=5"></video>
+            <p>조준호 · 임소율 · 세로 슬라이드</p>
           </article>
           <article class="film-card">
-            <video controls preload="metadata" poster="media/couples/08-한태민-문유진/couple-08-autumn.jpg" src="media/videos/08-한태민-문유진.mp4"></video>
-            <p>한태민 · 문유진</p>
+            <video controls preload="metadata" poster="media/couples/04-강시우-오예린/couple-04-garden-terrace.jpg" src="media/videos/depth/04-light_sweep.mp4?v=5"></video>
+            <p>강시우 · 오예린 · 라이트 스윕</p>
           </article>
           <article class="film-card">
-            <video controls preload="metadata" poster="media/couples/09-서건우-류하늘/couple-09-studio-white.jpg" src="media/videos/09-서건우-류하늘.mp4"></video>
-            <p>서건우 · 류하늘</p>
+            <video controls preload="metadata" poster="media/couples/08-한태민-문유진/couple-08-autumn.jpg" src="media/videos/depth/08-cinematic_zoom.mp4?v=5"></video>
+            <p>한태민 · 문유진 · 시네마틱 줌</p>
           </article>
           <article class="film-card">
-            <video controls preload="metadata" poster="media/couples/10-노성민-양다은/couple-10-ribbon-aisle.jpg" src="media/videos/10-노성민-양다은.mp4"></video>
-            <p>노성민 · 양다은</p>
+            <video controls preload="metadata" poster="media/couples/10-노성민-양다은/couple-10-ribbon-aisle.jpg" src="media/videos/10-노성민-양다은.mp4?v=2"></video>
+            <p>노성민 · 양다은 · 오빗</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/03-정도윤-한지민/couple-03-hanbok.jpg" src="media/videos/03-정도윤-한지민.mp4?v=2"></video>
+            <p>정도윤 · 한지민 · 캐러셀</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/05-윤우진-배채원/couple-05-staircase.jpg" src="media/videos/05-윤우진-배채원.mp4?v=2"></video>
+            <p>윤우진 · 배채원 · 카드 스택</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/06-장현우-신나연/couple-06-candle-reception.jpg" src="media/videos/06-장현우-신나연.mp4?v=2"></video>
+            <p>장현우 · 신나연 · 시차</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/02-박민재-최수아/couple-02-ivory-chapel.jpg" src="media/videos/02-박민재-최수아.mp4?v=2"></video>
+            <p>박민재 · 최수아 · 골드 프레임</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/01-이서준-김하은/couple-01-classic-hall.jpg" src="media/videos/01-이서준-김하은.mp4?v=2"></video>
+            <p>이서준 · 김하은 · 풀블리드</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/04-강시우-오예린/couple-04-garden-terrace.jpg" src="media/videos/04-강시우-오예린.mp4?v=2"></video>
+            <p>강시우 · 오예린 · 라이트 스윕</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/07-조준호-임소율/couple-07-first-look.jpg" src="media/videos/07-조준호-임소율.mp4?v=2"></video>
+            <p>조준호 · 임소율 · 상승</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/08-한태민-문유진/couple-08-autumn.jpg" src="media/videos/08-한태민-문유진.mp4?v=2"></video>
+            <p>한태민 · 문유진 · 줌 푸시</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/09-서건우-류하늘/couple-09-studio-white.jpg" src="media/videos/09-서건우-류하늘.mp4?v=2"></video>
+            <p>서건우 · 류하늘 · 위아래</p>
           </article>
         </div>
       </section>
@@ -384,7 +532,7 @@
       <section class="block" id="need">
         <h2>현재 단계에서 필요한 이유</h2>
         <div class="paper">
-          <p>귀사는 촬영과 편집을 이미 하고 계십니다. 지금 비어 있는 것은 영상을 새로 만드는 일이 아닙니다. 만든 파일이 투명 화면에서, 그날 몇 시의 누구 결혼식인지와 함께 나가는 자리입니다.</p>
+          <p>귀사는 촬영과 편집을 이미 하고 계십니다. 지금 비어 있는 것은 영상을 새로 만드는 일이 아닙니다. 만든 파일이 상부 투명 화면에서 나가고, 아래 별도 화면이 그날 몇 시의 누구 결혼식인지를 같이 보여 주는 자리입니다.</p>
           <p>예식은 예정 시각대로만 끝나지 않습니다. 같은 날 다음 커플이 같은 화면으로 이어집니다. 편집실 모니터에서 검게 보이는 파일도, 이 유리에서는 공간을 흐리게 할 수 있습니다. 기존 편집과 장비의 반복 재생은 시간표와 영상을 하루의 예식으로 묶어 주지 못합니다.</p>
         </div>
       </section>
@@ -598,6 +746,21 @@
     </div>
   </main>
   <script>
+    const SLOT_SEC = 30;
+    const day = [
+      ["10", "11:00", "노성민", "양다은", "media/videos/depth/10-falling_cube.mp4?v=5", "media/couples/10-노성민-양다은/couple-10-ribbon-aisle.jpg"],
+      ["03", "12:30", "정도윤", "한지민", "media/videos/depth/03-carousel_3d.mp4?v=5", "media/couples/03-정도윤-한지민/couple-03-hanbok.jpg"],
+      ["05", "14:00", "윤우진", "배채원", "media/videos/depth/05-accumulate_cards.mp4?v=5", "media/couples/05-윤우진-배채원/couple-05-staircase.jpg"],
+      ["06", "15:30", "장현우", "신나연", "media/videos/depth/06-cube_fly.mp4?v=5", "media/couples/06-장현우-신나연/couple-06-candle-reception.jpg"],
+      ["02", "17:00", "박민재", "최수아", "media/videos/depth/02-parallax_sphere.mp4?v=5", "media/couples/02-박민재-최수아/couple-02-ivory-chapel.jpg"]
+    ].map(([id, time, groom, bride, src, poster]) => ({ id, time, groom, bride, src, poster }));
+
+    function slotStep(index, currentTime, running, swapping, count, slotSec) {
+      if (!running || swapping || !(currentTime >= slotSec)) return { index, running, action: "hold" };
+      if (index >= count - 1) return { index, running: false, action: "stop" };
+      return { index: index + 1, running: true, action: "advance" };
+    }
+
     const scenes = {
       ceremony: {
         kicker: "14:00 앨범",
@@ -644,45 +807,281 @@
     const kicker = document.getElementById("top-kicker");
     const title = document.getElementById("top-title");
     const bottom = document.getElementById("oled-bottom");
+    const voidPanel = bottom.parentElement;
     const note = document.getElementById("scene-note");
     const tabs = [...document.querySelectorAll(".tabs button")];
+    const videos = [document.getElementById("top-a"), document.getElementById("top-b")];
+    const toggleBtn = document.getElementById("run-toggle");
+    const restartBtn = document.getElementById("run-restart");
+    const soundBtn = document.getElementById("run-sound");
+    const clock = document.getElementById("run-clock");
+    const runbar = document.querySelector(".runbar");
+    const totalSec = day.length * SLOT_SEC;
 
-    function render(key) {
-      const scene = scenes[key];
-      topPanel.classList.toggle("blank", scene.blank);
-      kicker.textContent = scene.kicker;
-      title.textContent = scene.title;
-      bottom.replaceChildren();
-      scene.rows.forEach(([time, names, state]) => {
-        const row = document.createElement("div");
-        row.className = "row" + (state ? " " + state : "");
-        const t = document.createElement("div");
-        t.className = "time";
-        t.textContent = time;
-        const n = document.createElement("div");
-        n.textContent = names;
-        row.append(t, n);
-        bottom.append(row);
-      });
-      note.textContent = scene.note;
+    let mode = "ceremony";
+    let index = 0;
+    let front = 0;
+    let running = false;
+    let swapping = false;
+    let muted = true;
+    let playGen = 0;
+    let skips = 0;
+
+    function fmt(sec) {
+      const whole = Math.max(0, Math.floor(sec));
+      return Math.floor(whole / 60) + ":" + String(whole % 60).padStart(2, "0");
+    }
+
+    function coupleName(couple) {
+      return couple.groom + " · " + couple.bride;
+    }
+
+    function selectTab(key) {
       tabs.forEach((tab) => {
-        const on = tab.id === "tab-" + key;
-        tab.setAttribute("aria-selected", on ? "true" : "false");
+        tab.setAttribute("aria-selected", tab.id === "tab-" + key ? "true" : "false");
       });
     }
 
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => render(tab.id.replace("tab-", "")));
+    function renderRows(items) {
+      bottom.replaceChildren();
+      items.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "row" + (item.now ? " now" : "");
+        if (item.now) row.setAttribute("aria-current", "true");
+        const time = document.createElement("div");
+        time.className = "time";
+        time.textContent = item.time;
+        const names = document.createElement("div");
+        names.textContent = item.names;
+        row.append(time, names);
+        bottom.append(row);
+      });
+      const active = bottom.querySelector(".row.now");
+      if (active && bottom.classList.contains("day")) {
+        const delta = active.offsetTop - bottom.scrollTop;
+        bottom.scrollTop += delta - (bottom.clientHeight - active.clientHeight) / 2;
+      }
+    }
+
+    function updateToggle() {
+      const atEnd = index >= day.length - 1 && (videos[front].currentTime || 0) >= SLOT_SEC - 0.25;
+      toggleBtn.textContent = running ? "일시정지" : (atEnd ? "다시 재생" : "재생");
+    }
+
+    function tick() {
+      const current = Math.min(videos[front].currentTime || 0, SLOT_SEC);
+      const elapsed = index * SLOT_SEC + (mode === "ceremony" ? current : 0);
+      clock.textContent = fmt(elapsed) + " / " + fmt(totalSec);
+      updateToggle();
+    }
+
+    function renderDay() {
+      const couple = day[index];
+      topPanel.classList.remove("blank");
+      topPanel.classList.add("playing");
+      voidPanel.classList.add("day");
+      bottom.classList.add("day");
+      runbar.hidden = false;
+      kicker.textContent = "";
+      title.textContent = "";
+      videos[front].setAttribute("aria-label", couple.time + " " + coupleName(couple) + " 앨범");
+      renderRows(day.map((item, i) => ({
+        time: item.time,
+        names: coupleName(item),
+        now: i === index
+      })));
+      note.textContent = "예식 흐름입니다. 위에는 그 커플의 앨범만 30초 나가고, 아래 식순에서는 그 줄만 밝게 켜집니다. 한 홀에 하루 5팀이라 2분 30초입니다. 이 다섯은 폴링 큐브, 입체 캐러셀, 쌓이는 카드, 큐브 플라이, 패럴랙스입니다. 시각은 예시이고, 실제 예식이 30초라는 뜻은 아닙니다.";
+      selectTab("ceremony");
+      tick();
+    }
+
+    function renderStatic(key) {
+      const scene = scenes[key];
+      running = false;
+      videos.forEach((video) => video.pause());
+      topPanel.classList.remove("playing");
+      topPanel.classList.toggle("blank", scene.blank);
+      voidPanel.classList.remove("day");
+      bottom.classList.remove("day");
+      runbar.hidden = true;
+      kicker.textContent = scene.kicker;
+      title.textContent = scene.title;
+      renderRows(scene.rows.map(([time, names, state]) => ({ time, names, now: state === "now" })));
+      note.textContent = scene.note;
+      selectTab(key);
+      updateToggle();
+    }
+
+    function loadInto(el, couple) {
+      if (el.dataset.key === couple.id && el.readyState >= 2) return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        const ok = () => { cleanup(); resolve(); };
+        const bad = () => { cleanup(); reject(new Error("video")); };
+        const cleanup = () => {
+          el.removeEventListener("loadeddata", ok);
+          el.removeEventListener("error", bad);
+        };
+        el.addEventListener("loadeddata", ok);
+        el.addEventListener("error", bad);
+        if (el.dataset.key !== couple.id) {
+          el.dataset.key = couple.id;
+          el.poster = couple.poster;
+          el.src = couple.src;
+        } else if (el.readyState >= 2) {
+          cleanup();
+          resolve();
+        }
+      });
+    }
+
+    function pauseFilms() {
+      document.querySelectorAll(".film-grid video").forEach((video) => video.pause());
+    }
+
+    async function playFront(fromStart) {
+      const gen = ++playGen;
+      const show = videos[front];
+      const hide = videos[1 - front];
+      const couple = day[index];
+      try {
+        await loadInto(show, couple);
+      } catch (error) {
+        if (gen !== playGen) return;
+        skipBroken();
+        return;
+      }
+      if (gen !== playGen || mode !== "ceremony") return;
+      if (fromStart) show.currentTime = 0;
+      show.muted = muted;
+      show.classList.add("is-on");
+      hide.classList.remove("is-on");
+      hide.pause();
+      renderDay();
+      if (running) {
+        try {
+          await show.play();
+          skips = 0;
+        } catch (error) {
+          running = false;
+          updateToggle();
+        }
+      }
+      if (gen !== playGen) return;
+      const next = day[index + 1];
+      if (next) loadInto(hide, next).catch(() => {});
+    }
+
+    function skipBroken() {
+      skips += 1;
+      if (skips > day.length || index >= day.length - 1) {
+        running = false;
+        swapping = false;
+        updateToggle();
+        return;
+      }
+      index += 1;
+      front = 1 - front;
+      playFront(true);
+    }
+
+    function onTime(event) {
+      const video = event.currentTarget;
+      if (video !== videos[front] || mode !== "ceremony") return;
+      tick();
+      const step = slotStep(index, video.currentTime, running, swapping, day.length, SLOT_SEC);
+      if (step.action === "hold") return;
+      swapping = true;
+      video.pause();
+      running = step.running;
+      if (step.action === "stop") {
+        swapping = false;
+        tick();
+        return;
+      }
+      index = step.index;
+      front = 1 - front;
+      playFront(true).finally(() => { swapping = false; });
+    }
+
+    videos.forEach((video) => video.addEventListener("timeupdate", onTime));
+
+    toggleBtn.addEventListener("click", () => {
+      if (mode !== "ceremony") {
+        mode = "ceremony";
+        index = 0;
+        front = 0;
+        running = true;
+        playFront(true);
+        return;
+      }
+      const atEnd = index >= day.length - 1 && videos[front].currentTime >= SLOT_SEC - 0.25;
+      if (!running && atEnd) {
+        index = 0;
+        front = 0;
+        running = true;
+        pauseFilms();
+        playFront(true);
+        return;
+      }
+      running = !running;
+      if (running) {
+        pauseFilms();
+        playFront(false);
+      } else {
+        videos[front].pause();
+        updateToggle();
+      }
     });
-    render("ceremony");
+
+    restartBtn.addEventListener("click", () => {
+      mode = "ceremony";
+      index = 0;
+      front = 0;
+      running = true;
+      pauseFilms();
+      playFront(true);
+    });
+
+    soundBtn.addEventListener("click", () => {
+      muted = !muted;
+      videos.forEach((video) => { video.muted = muted; });
+      soundBtn.textContent = muted ? "소리 켜기" : "소리 끄기";
+      soundBtn.setAttribute("aria-pressed", muted ? "false" : "true");
+      if (!muted && mode === "ceremony" && running) videos[front].play().catch(() => {});
+    });
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const key = tab.id.replace("tab-", "");
+        if (key === "ceremony") {
+          if (mode === "ceremony") return;
+          mode = "ceremony";
+          running = false;
+          renderDay();
+          playFront(false);
+          return;
+        }
+        mode = key;
+        renderStatic(key);
+      });
+    });
 
     document.querySelectorAll(".film-grid video").forEach((video) => {
       video.addEventListener("play", () => {
         document.querySelectorAll(".film-grid video").forEach((other) => {
           if (other !== video) other.pause();
         });
+        running = false;
+        videos.forEach((item) => item.pause());
+        updateToggle();
       });
     });
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    mode = "ceremony";
+    running = !reduceMotion;
+    renderDay();
+    playFront(true);
   </script>
 </body>
 </html>

@@ -29,15 +29,19 @@ jobs:
           set -euo pipefail
           mkdir -p _site/media/videos _site/media/couples
           cp web/index.html _site/index.html
-          cp web/media/*.jpg _site/media/
+          find web/media -maxdepth 1 -type f \( -name '*.jpg' -o -name '*.png' \) -exec cp -t _site/media/ {} +
           find content/videos -maxdepth 1 -type f -name '*.mp4' -exec cp -t _site/media/videos/ {} +
+          mkdir -p _site/media/videos/depth
+          find content/videos/depth -maxdepth 1 -type f -name '*.mp4' -exec cp -t _site/media/videos/depth/ {} +
           while IFS= read -r rel; do
             mkdir -p "_site/media/couples/$(dirname "$rel")"
             cp "content/couples/$rel" "_site/media/couples/$rel"
           done < <(grep -oE 'media/couples/[^"]+\.(jpg|png)' web/index.html | sed 's#^media/couples/##')
           video_count="$(find _site/media/videos -maxdepth 1 -type f -name '*.mp4' | wc -l)"
+          depth_count="$(find _site/media/videos/depth -maxdepth 1 -type f -name '*.mp4' | wc -l)"
           poster_count="$(find _site/media/couples -type f \( -name '*.jpg' -o -name '*.png' \) | wc -l)"
           test "$video_count" -eq 10
+          test "$depth_count" -eq 9
           test "$poster_count" -eq 10
           touch _site/.nojekyll
 

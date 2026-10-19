@@ -1,0 +1,287 @@
+{
+  "display": {
+    "inches": 55,
+    "pixels": [
+      1080,
+      1920
+    ],
+    "orientation": "portrait",
+    "note": "Source frames were generated at 720x1280 and Lanczos-upscaled to 1080x1920. Native 1080 is still needed before a 55-inch install. Photo scenes keep their own backgrounds. When the display template is rendered, the template canvas must be solid #000000, not transparency: on the OLED those black pixels read as transparent."
+  },
+  "status": "ten_shots_each",
+  "warning": "Fictional sample couples. Each pair now has 1 hero plus 9 more shots. Faces were guided by the hero, but they are not a locked identity model, so a frame can still drift. Photo scenes keep their backgrounds. Template renders later must use a solid #000000 canvas because the OLED reads that black as transparent.",
+  "couples": [
+    {
+      "id": "01",
+      "groom": "이서준",
+      "bride": "김하은",
+      "concept": "밝은 홀, 블랙 턱시도, 아이보리 A라인",
+      "file": "01-이서준-김하은/couple-01-classic-hall.jpg",
+      "folder": "01-이서준-김하은",
+      "shots": [
+        "01-이서준-김하은/couple-01-classic-hall.jpg",
+        "01-이서준-김하은/couple-01-s02-close.jpg",
+        "01-이서준-김하은/couple-01-s03-aisle.jpg",
+        "01-이서준-김하은/couple-01-s04-bouquet.jpg",
+        "01-이서준-김하은/couple-01-s05-seated.jpg",
+        "01-이서준-김하은/couple-01-s06-laugh.jpg",
+        "01-이서준-김하은/couple-01-s07-glance.jpg",
+        "01-이서준-김하은/couple-01-s08-wide.jpg",
+        "01-이서준-김하은/couple-01-s09-toast.jpg",
+        "01-이서준-김하은/couple-01-s10-studio.jpg"
+      ],
+      "video": "content/videos/01-이서준-김하은.mp4",
+      "folder_video": "content/couples/01-이서준-김하은/couple-01-mbox-2m.mp4"
+    },
+    {
+      "id": "02",
+      "groom": "박민재",
+      "bride": "최수아",
+      "concept": "아이보리 수트, 단발, 화이트 채플",
+      "file": "02-박민재-최수아/couple-02-ivory-chapel.jpg",
+      "folder": "02-박민재-최수아",
+      "shots": [
+        "02-박민재-최수아/couple-02-ivory-chapel.jpg",
+        "02-박민재-최수아/couple-02-s02-close.jpg",
+        "02-박민재-최수아/couple-02-s03-aisle.jpg",
+        "02-박민재-최수아/couple-02-s04-bouquet.jpg",
+        "02-박민재-최수아/couple-02-s05-seated.jpg",
+        "02-박민재-최수아/couple-02-s06-laugh.jpg",
+        "02-박민재-최수아/couple-02-s07-glance.jpg",
+        "02-박민재-최수아/couple-02-s08-wide.jpg",
+        "02-박민재-최수아/couple-02-s09-toast.jpg",
+        "02-박민재-최수아/couple-02-s10-studio.jpg"
+      ],
+      "video": "content/videos/02-박민재-최수아.mp4",
+      "folder_video": "content/couples/02-박민재-최수아/couple-02-mbox-2m.mp4"
+    },
+    {
+      "id": "03",
+      "groom": "정도윤",
+      "bride": "한지민",
+      "concept": "아이보리 한복, 한옥 오후 빛",
+      "file": "03-정도윤-한지민/couple-03-hanbok.jpg",
+      "folder": "03-정도윤-한지민",
+      "shots": [
+        "03-정도윤-한지민/couple-03-hanbok.jpg",
+        "03-정도윤-한지민/couple-03-s02-close.jpg",
+        "03-정도윤-한지민/couple-03-s03-aisle.jpg",
+        "03-정도윤-한지민/couple-03-s04-bouquet.jpg",
+        "03-정도윤-한지민/couple-03-s05-seated.jpg",
+        "03-정도윤-한지민/couple-03-s06-laugh.jpg",
+        "03-정도윤-한지민/couple-03-s07-glance.jpg",
+        "03-정도윤-한지민/couple-03-s08-wide.jpg",
+        "03-정도윤-한지민/couple-03-s09-toast.jpg",
+        "03-정도윤-한지민/couple-03-s10-studio.jpg"
+      ],
+      "video": "content/videos/03-정도윤-한지민.mp4",
+      "folder_video": "content/couples/03-정도윤-한지민/couple-03-mbox-2m.mp4"
+    },
+    {
+      "id": "04",
+      "groom": "강시우",
+      "bride": "오예린",
+      "concept": "차콜 수트, 오프숄더, 온실 테라스",
+      "file": "04-강시우-오예린/couple-04-garden-terrace.jpg",
+      "folder": "04-강시우-오예린",
+      "shots": [
+        "04-강시우-오예린/couple-04-garden-terrace.jpg",
+        "04-강시우-오예린/couple-04-s02-close.jpg",
+        "04-강시우-오예린/couple-04-s03-aisle.jpg",
+        "04-강시우-오예린/couple-04-s04-bouquet.jpg",
+        "04-강시우-오예린/couple-04-s05-seated.jpg",
+        "04-강시우-오예린/couple-04-s06-laugh.jpg",
+        "04-강시우-오예린/couple-04-s07-glance.jpg",
+        "04-강시우-오예린/couple-04-s08-wide.jpg",
+        "04-강시우-오예린/couple-04-s09-toast.jpg",
+        "04-강시우-오예린/couple-04-s10-studio.jpg"
+      ],
+      "video": "content/videos/04-강시우-오예린.mp4",
+      "folder_video": "content/couples/04-강시우-오예린/couple-04-mbox-2m.mp4"
+    },
+    {
+      "id": "05",
+      "groom": "윤우진",
+      "bride": "배채원",
+      "concept": "짧은 머리, 앞머리 포니테일, 계단 볼가운",
+      "file": "05-윤우진-배채원/couple-05-staircase.jpg",
+      "folder": "05-윤우진-배채원",
+      "shots": [
+        "05-윤우진-배채원/couple-05-s02-close.jpg",
+        "05-윤우진-배채원/couple-05-s03-aisle.jpg",
+        "05-윤우진-배채원/couple-05-s04-bouquet.jpg",
+        "05-윤우진-배채원/couple-05-s05-seated.jpg",
+        "05-윤우진-배채원/couple-05-s06-laugh.jpg",
+        "05-윤우진-배채원/couple-05-s07-glance.jpg",
+        "05-윤우진-배채원/couple-05-s08-wide.jpg",
+        "05-윤우진-배채원/couple-05-s09-toast.jpg",
+        "05-윤우진-배채원/couple-05-s10-studio.jpg",
+        "05-윤우진-배채원/couple-05-staircase.jpg"
+      ],
+      "video": "content/videos/05-윤우진-배채원.mp4",
+      "folder_video": "content/couples/05-윤우진-배채원/couple-05-mbox-2m.mp4"
+    },
+    {
+      "id": "06",
+      "groom": "장현우",
+      "bride": "신나연",
+      "concept": "촛불 리셉션, 샴페인 칼럼 드레스",
+      "file": "06-장현우-신나연/couple-06-candle-reception.jpg",
+      "folder": "06-장현우-신나연",
+      "shots": [
+        "06-장현우-신나연/couple-06-candle-reception.jpg",
+        "06-장현우-신나연/couple-06-s02-close.jpg",
+        "06-장현우-신나연/couple-06-s03-aisle.jpg",
+        "06-장현우-신나연/couple-06-s04-bouquet.jpg",
+        "06-장현우-신나연/couple-06-s05-seated.jpg",
+        "06-장현우-신나연/couple-06-s06-laugh.jpg",
+        "06-장현우-신나연/couple-06-s07-glance.jpg",
+        "06-장현우-신나연/couple-06-s08-wide.jpg",
+        "06-장현우-신나연/couple-06-s09-toast.jpg",
+        "06-장현우-신나연/couple-06-s10-studio.jpg"
+      ],
+      "video": "content/videos/06-장현우-신나연.mp4",
+      "folder_video": "content/couples/06-장현우-신나연/couple-06-mbox-2m.mp4"
+    },
+    {
+      "id": "07",
+      "groom": "조준호",
+      "bride": "임소율",
+      "concept": "복도 첫 대면, 네이비 수트, 짧은 베일",
+      "file": "07-조준호-임소율/couple-07-first-look.jpg",
+      "folder": "07-조준호-임소율",
+      "shots": [
+        "07-조준호-임소율/couple-07-first-look.jpg",
+        "07-조준호-임소율/couple-07-s02-close.jpg",
+        "07-조준호-임소율/couple-07-s03-aisle.jpg",
+        "07-조준호-임소율/couple-07-s04-bouquet.jpg",
+        "07-조준호-임소율/couple-07-s05-seated.jpg",
+        "07-조준호-임소율/couple-07-s06-laugh.jpg",
+        "07-조준호-임소율/couple-07-s07-glance.jpg",
+        "07-조준호-임소율/couple-07-s08-wide.jpg",
+        "07-조준호-임소율/couple-07-s09-toast.jpg",
+        "07-조준호-임소율/couple-07-s10-studio.jpg"
+      ],
+      "video": "content/videos/07-조준호-임소율.mp4",
+      "folder_video": "content/couples/07-조준호-임소율/couple-07-mbox-2m.mp4"
+    },
+    {
+      "id": "08",
+      "groom": "한태민",
+      "bride": "문유진",
+      "concept": "가을 야외, 캐멀 코트",
+      "file": "08-한태민-문유진/couple-08-autumn.jpg",
+      "folder": "08-한태민-문유진",
+      "shots": [
+        "08-한태민-문유진/couple-08-autumn.jpg",
+        "08-한태민-문유진/couple-08-s02-close.jpg",
+        "08-한태민-문유진/couple-08-s03-aisle.jpg",
+        "08-한태민-문유진/couple-08-s04-bouquet.jpg",
+        "08-한태민-문유진/couple-08-s05-seated.jpg",
+        "08-한태민-문유진/couple-08-s06-laugh.jpg",
+        "08-한태민-문유진/couple-08-s07-glance.jpg",
+        "08-한태민-문유진/couple-08-s08-wide.jpg",
+        "08-한태민-문유진/couple-08-s09-toast.jpg",
+        "08-한태민-문유진/couple-08-s10-studio.jpg"
+      ],
+      "video": "content/videos/08-한태민-문유진.mp4",
+      "folder_video": "content/couples/08-한태민-문유진/couple-08-mbox-2m.mp4"
+    },
+    {
+      "id": "09",
+      "groom": "서건우",
+      "bride": "류하늘",
+      "concept": "화이트 스튜디오, 보우 드레스",
+      "file": "09-서건우-류하늘/couple-09-studio-white.jpg",
+      "folder": "09-서건우-류하늘",
+      "shots": [
+        "09-서건우-류하늘/couple-09-s02-close.jpg",
+        "09-서건우-류하늘/couple-09-s03-aisle.jpg",
+        "09-서건우-류하늘/couple-09-s04-bouquet.jpg",
+        "09-서건우-류하늘/couple-09-s05-seated.jpg",
+        "09-서건우-류하늘/couple-09-s06-laugh.jpg",
+        "09-서건우-류하늘/couple-09-s07-glance.jpg",
+        "09-서건우-류하늘/couple-09-s08-wide.jpg",
+        "09-서건우-류하늘/couple-09-s09-toast.jpg",
+        "09-서건우-류하늘/couple-09-s10-studio.jpg",
+        "09-서건우-류하늘/couple-09-studio-white.jpg"
+      ],
+      "video": "content/videos/09-서건우-류하늘.mp4",
+      "folder_video": "content/couples/09-서건우-류하늘/couple-09-mbox-2m.mp4"
+    },
+    {
+      "id": "10",
+      "groom": "노성민",
+      "bride": "양다은",
+      "concept": "리본 버진로드, 입장",
+      "file": "10-노성민-양다은/couple-10-ribbon-aisle.jpg",
+      "folder": "10-노성민-양다은",
+      "shots": [
+        "10-노성민-양다은/couple-10-ribbon-aisle.jpg",
+        "10-노성민-양다은/couple-10-s02-close.jpg",
+        "10-노성민-양다은/couple-10-s03-aisle.jpg",
+        "10-노성민-양다은/couple-10-s04-bouquet.jpg",
+        "10-노성민-양다은/couple-10-s05-seated.jpg",
+        "10-노성민-양다은/couple-10-s06-laugh.jpg",
+        "10-노성민-양다은/couple-10-s07-glance.jpg",
+        "10-노성민-양다은/couple-10-s08-wide.jpg",
+        "10-노성민-양다은/couple-10-s09-toast.jpg",
+        "10-노성민-양다은/couple-10-s10-studio.jpg"
+      ],
+      "video": "content/videos/10-노성민-양다은.mp4",
+      "folder_video": "content/couples/10-노성민-양다은/couple-10-mbox-2m.mp4"
+    }
+  ],
+  "shots": [
+    {
+      "id": "s01",
+      "label": "전신 히어로",
+      "file_pattern": "{folder}/couple-{nn}-{concept}.jpg"
+    },
+    {
+      "id": "s02",
+      "label": "상반신",
+      "file_pattern": "{folder}/couple-{nn}-s02-close.jpg"
+    },
+    {
+      "id": "s03",
+      "label": "입장",
+      "file_pattern": "{folder}/couple-{nn}-s03-aisle.jpg"
+    },
+    {
+      "id": "s04",
+      "label": "부케",
+      "file_pattern": "{folder}/couple-{nn}-s04-bouquet.jpg"
+    },
+    {
+      "id": "s05",
+      "label": "앉은 컷",
+      "file_pattern": "{folder}/couple-{nn}-s05-seated.jpg"
+    },
+    {
+      "id": "s06",
+      "label": "웃음",
+      "file_pattern": "{folder}/couple-{nn}-s06-laugh.jpg"
+    },
+    {
+      "id": "s07",
+      "label": "뒤돌아보기",
+      "file_pattern": "{folder}/couple-{nn}-s07-glance.jpg"
+    },
+    {
+      "id": "s08",
+      "label": "홀 전경",
+      "file_pattern": "{folder}/couple-{nn}-s08-wide.jpg"
+    },
+    {
+      "id": "s09",
+      "label": "건배 또는 인사",
+      "file_pattern": "{folder}/couple-{nn}-s09-toast.jpg"
+    },
+    {
+      "id": "s10",
+      "label": "스튜디오 정면",
+      "file_pattern": "{folder}/couple-{nn}-s10-studio.jpg"
+    }
+  ]
+}

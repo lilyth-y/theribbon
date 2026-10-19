@@ -1,0 +1,228 @@
+{
+  "resolution": [
+    1080,
+    1920
+  ],
+  "fps": 24,
+  "duration_sec": 120.0,
+  "oled_canvas": "#000000",
+  "layout": {
+    "top_video_stage": [
+      1080,
+      1340
+    ],
+    "bottom_ceremony_order": [
+      1080,
+      580
+    ]
+  },
+  "mbox_templates_used": [
+    "envato-elements-CubeFantasy",
+    "drive-8_03_6_3D_큐브3개",
+    "drive-8_03_10_3D_carousel_3",
+    "mixkit-594",
+    "mixkit-802",
+    "mixkit-831",
+    "envato-elements-BeautifulMemoriesSphere",
+    "drive-8_02_6_3D_vertical_slide",
+    "mixkit-591",
+    "envato-elements-ElegantCubeSlideshow"
+  ],
+  "broll_sources_used": {
+    "petals": "c:\\startingup\\MBOX_Upproject\\AEP\\_envato_intake\\staging\\mixkit\\mixkit-837\\extracted\\LoveVertical folder\\(Footage)\\mixkit-rose-petals-3237.mp4",
+    "rings": "c:\\startingup\\MBOX_Upproject\\AEP\\mixkit-elegant-wedding-slideshow-802\\WeddingSlideshow folder\\(Footage)\\mixkit-engagement-jewelry-5218.mp4",
+    "bouquet": "c:\\startingup\\MBOX_Upproject\\AEP\\mixkit-elegant-wedding-slideshow-802\\WeddingSlideshow folder\\(Footage)\\mixkit-bridal-bouquet-of-white-flowers-in-a-close-up-shot-18204.mp4"
+  },
+  "fx_sources_used": {
+    "cube_bokeh": "c:\\startingup\\MBOX_Upproject\\AEP\\envato-elements-ElegantCubeSlideshow\\(Footage)\\- Elegant Cube Slideshow\\03 Other\\Footage\\Bokeh.mp4",
+    "cube_leaks": "c:\\startingup\\MBOX_Upproject\\AEP\\envato-elements-ElegantCubeSlideshow\\(Footage)\\- Elegant Cube Slideshow\\03 Other\\Footage\\Leaks_02.mp4",
+    "glass_dust": "c:\\startingup\\MBOX_Upproject\\AEP\\_collected_footage\\drive\\8_02_9_2D_글래스슬라이드\\Dust.mp4",
+    "glass_flares": "c:\\startingup\\MBOX_Upproject\\AEP\\_collected_footage\\drive\\8_02_9_2D_글래스슬라이드\\Flares_1.mp4",
+    "light_leaks": "c:\\startingup\\MBOX_Upproject\\AEP\\_collected_footage\\drive\\8_03_3_2D_유리슬라이드\\2024_04_28_Light_Leaks_01.mp4",
+    "particles": "c:\\startingup\\MBOX_Upproject\\AEP\\_collected_footage\\drive\\8_03_3_2D_유리슬라이드\\2024_04_28_Particles_01.mp4"
+  },
+  "ceremony_steps": [
+    {
+      "idx": 1,
+      "ko": "개식사 · 촛불점화",
+      "en": "OPENING & CANDLE LIGHTING"
+    },
+    {
+      "idx": 2,
+      "ko": "신랑 입장",
+      "en": "GROOM ENTRANCE"
+    },
+    {
+      "idx": 3,
+      "ko": "신부 입장 · 맞절",
+      "en": "BRIDE ENTRANCE & BOW"
+    },
+    {
+      "idx": 4,
+      "ko": "혼인서약 · 성혼선언",
+      "en": "MARRIAGE VOWS & DECLARATION"
+    },
+    {
+      "idx": 5,
+      "ko": "축가 · 양가 인사",
+      "en": "CELEBRATION & GREETING"
+    },
+    {
+      "idx": 6,
+      "ko": "행진 · 폐식",
+      "en": "WEDDING MARCH & FINALE"
+    }
+  ],
+  "videos": [
+    {
+      "id": "01",
+      "groom": "이서준",
+      "bride": "김하은",
+      "video": "content/videos/01-이서준-김하은.mp4",
+      "couple_folder_copy": "content/couples/01-이서준-김하은/couple-01-mbox-2m.mp4",
+      "resolution": [
+        1080,
+        1920
+      ],
+      "audio_codec": "aac",
+      "duration_sec": 120.0,
+      "size_mb": 34.35,
+      "photos_included": 10
+    },
+    {
+      "id": "02",
+      "groom": "박민재",
+      "bride": "최수아",
+      "video": "content/videos/02-박민재-최수아.mp4",
+      "couple_folder_copy": "content/couples/02-박민재-최수아/couple-02-mbox-2m.mp4",
+      "resolution": [
+        1080,
+        1920
+      ],
+      "audio_codec": "aac",
+      "duration_sec": 120.0,
+      "size_mb": 33.15,
+      "photos_included": 10
+    },
+    {
+      "id": "03",
+      "groom": "정도윤",
+      "bride": "한지민",
+      "video": "content/videos/03-정도윤-한지민.mp4",
+      "couple_folder_copy": "content/couples/03-정도윤-한지민/couple-03-mbox-2m.mp4",
+      "resolution": [
+        1080,
+        1920
+      ],
+      "audio_codec": "aac",
+      "duration_sec": 120.0,
+      "size_mb": 37.23,
+      "photos_included": 10
+    },
+    {
+      "id": "04",
+      "groom": "강시우",
+      "bride": "오예린",
+      "video": "content/videos/04-강시우-오예린.mp4",
+      "couple_folder_copy": "content/couples/04-강시우-오예린/couple-04-mbox-2m.mp4",
+      "resolution": [
+        1080,
+        1920
+      ],
+      "audio_codec": "aac",
+      "duration_sec": 120.0,
+      "size_mb": 45.46,
+      "photos_included": 10
+    },
+    {
+      "id": "05",
+      "groom": "윤우진",
+      "bride": "배채원",
+      "video": "content/videos/05-윤우진-배채원.mp4",
+      "couple_folder_copy": "content/couples/05-윤우진-배채원/couple-05-mbox-2m.mp4",
+      "resolution": [
+        1080,
+        1920
+      ],
+      "audio_codec": "aac",
+      "duration_sec": 120.0,
+      "size_mb": 39.1,
+      "photos_included": 10
+    },
+    {
+      "id": "06",
+      "groom": "장현우",
+      "bride": "신나연",
+      "video": "content/videos/06-장현우-신나연.mp4",
+      "couple_folder_copy": "content/couples/06-장현우-신나연/couple-06-mbox-2m.mp4",
+      "resolution": [
+        1080,
+        1920
+      ],
+      "audio_codec": "aac",
+      "duration_sec": 120.0,
+      "size_mb": 35.02,
+      "photos_included": 10
+    },
+    {
+      "id": "07",
+      "groom": "조준호",
+      "bride": "임소율",
+      "video": "content/videos/07-조준호-임소율.mp4",
+      "couple_folder_copy": "content/couples/07-조준호-임소율/couple-07-mbox-2m.mp4",
+      "resolution": [
+        1080,
+        1920
+      ],
+      "audio_codec": "aac",
+      "duration_sec": 120.0,
+      "size_mb": 31.05,
+      "photos_included": 10
+    },
+    {
+      "id": "08",
+      "groom": "한태민",
+      "bride": "문유진",
+      "video": "content/videos/08-한태민-문유진.mp4",
+      "couple_folder_copy": "content/couples/08-한태민-문유진/couple-08-mbox-2m.mp4",
+      "resolution": [
+        1080,
+        1920
+      ],
+      "audio_codec": "aac",
+      "duration_sec": 120.0,
+      "size_mb": 48.95,
+      "photos_included": 10
+    },
+    {
+      "id": "09",
+      "groom": "서건우",
+      "bride": "류하늘",
+      "video": "content/videos/09-서건우-류하늘.mp4",
+      "couple_folder_copy": "content/couples/09-서건우-류하늘/couple-09-mbox-2m.mp4",
+      "resolution": [
+        1080,
+        1920
+      ],
+      "audio_codec": "aac",
+      "duration_sec": 120.0,
+      "size_mb": 24.72,
+      "photos_included": 10
+    },
+    {
+      "id": "10",
+      "groom": "노성민",
+      "bride": "양다은",
+      "video": "content/videos/10-노성민-양다은.mp4",
+      "couple_folder_copy": "content/couples/10-노성민-양다은/couple-10-mbox-2m.mp4",
+      "resolution": [
+        1080,
+        1920
+      ],
+      "audio_codec": "aac",
+      "duration_sec": 120.0,
+      "size_mb": 32.28,
+      "photos_included": 10
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+# Local junctions. Canonical media lives under content/ and is copied at deploy time.
+web/media/videos/
+web/media/couples/
+
+# Same clips already stored in content/videos.
+content/couples/**/*.mp4
+
+# Third-party website copies. Not part of the published site.
+content/research/
+
+# Local reference files the site does not use.
+*.pdf
+20261015_060315 (1).jpg
+
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

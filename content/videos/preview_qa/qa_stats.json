@@ -1,0 +1,92 @@
+[
+  {
+    "id": "01",
+    "couple": "이서준·김하은",
+    "frames": 2880,
+    "duration_sec": 120.0,
+    "sample_sec": 8.0,
+    "overall_black_ratio": 0.513,
+    "bottom_panel_black_ratio": 0.957
+  },
+  {
+    "id": "02",
+    "couple": "박민재·최수아",
+    "frames": 2880,
+    "duration_sec": 120.0,
+    "sample_sec": 20.0,
+    "overall_black_ratio": 0.629,
+    "bottom_panel_black_ratio": 0.962
+  },
+  {
+    "id": "03",
+    "couple": "정도윤·한지민",
+    "frames": 2880,
+    "duration_sec": 120.0,
+    "sample_sec": 34.0,
+    "overall_black_ratio": 0.549,
+    "bottom_panel_black_ratio": 0.96
+  },
+  {
+    "id": "04",
+    "couple": "강시우·오예린",
+    "frames": 2880,
+    "duration_sec": 120.0,
+    "sample_sec": 46.0,
+    "overall_black_ratio": 0.368,
+    "bottom_panel_black_ratio": 0.956
+  },
+  {
+    "id": "05",
+    "couple": "윤우진·배채원",
+    "frames": 2880,
+    "duration_sec": 120.0,
+    "sample_sec": 56.0,
+    "overall_black_ratio": 0.654,
+    "bottom_panel_black_ratio": 0.957
+  },
+  {
+    "id": "06",
+    "couple": "장현우·신나연",
+    "frames": 2880,
+    "duration_sec": 120.0,
+    "sample_sec": 68.0,
+    "overall_black_ratio": 0.574,
+    "bottom_panel_black_ratio": 0.96
+  },
+  {
+    "id": "07",
+    "couple": "조준호·임소율",
+    "frames": 2880,
+    "duration_sec": 120.0,
+    "sample_sec": 80.0,
+    "overall_black_ratio": 0.334,
+    "bottom_panel_black_ratio": 0.957
+  },
+  {
+    "id": "08",
+    "couple": "한태민·문유진",
+    "frames": 2880,
+    "duration_sec": 120.0,
+    "sample_sec": 92.0,
+    "overall_black_ratio": 0.643,
+    "bottom_panel_black_ratio": 0.958
+  },
+  {
+    "id": "09",
+    "couple": "서건우·류하늘",
+    "frames": 2880,
+    "duration_sec": 120.0,
+    "sample_sec": 104.0,
+    "overall_black_ratio": 0.642,
+    "bottom_panel_black_ratio": 0.959
+  },
+  {
+    "id": "10",
+    "couple": "노성민·양다은",
+    "frames": 2880,
+    "duration_sec": 120.0,
+    "sample_sec": 114.0,
+    "overall_black_ratio": 0.526,
+    "bottom_panel_black_ratio": 0.961
+  }
+]

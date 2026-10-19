@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>투명 OLED 시간 제어 협업 제안</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #efeae3;
+      --paper: #faf8f5;
+      --ink: #241f1b;
+      --muted: #6d645c;
+      --line: #e3dbd2;
+      --gold: #8c6b3e;
+      --gold-soft: #c4a574;
+      --now: #f3ead8;
+      --danger: #7a3e32;
+      --max: 1440px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Pretendard, "Noto Sans KR", sans-serif;
+      font-size: 17px;
+      line-height: 1.75;
+    }
+    a { color: inherit; }
+    .skip {
+      position: absolute;
+      left: 12px;
+      top: -40px;
+      background: var(--ink);
+      color: white;
+      padding: 8px 12px;
+    }
+    .skip:focus { top: 12px; }
+    header.bar {
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      background: rgba(239, 234, 227, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .bar-inner, .wrap { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .bar-inner {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      min-height: 64px;
+    }
+    .brand {
+      font-family: "Gowun Batang", serif;
+      letter-spacing: 0.08em;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    nav { display: flex; gap: 18px; overflow-x: auto; font-size: 14px; color: var(--muted); }
+    nav a { text-decoration: none; white-space: nowrap; }
+    nav a:hover { color: var(--ink); }
+    .hero { padding: 56px 0 24px; }
+    .kicker {
+      color: var(--gold);
+      letter-spacing: 0.14em;
+      font-size: 12px;
+      margin: 0 0 12px;
+    }
+    h1, h2, h3 { font-family: "Gowun Batang", serif; font-weight: 700; letter-spacing: -0.02em; }
+    h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1.35; margin: 0 0 20px; }
+    h2 { font-size: 30px; margin: 0 0 16px; }
+    h3 { font-size: 20px; margin: 0 0 8px; }
+    .lede { font-size: 18px; max-width: 42rem; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: start;
+    }
+    section.block { padding: 28px 0 8px; }
+    .paper {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px;
+    }
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    ul.clean { margin: 0; padding-left: 1.1em; }
+    ul.clean li { margin: 0.35em 0; }
+    .muted { color: var(--muted); }
+    .device-wrap { position: sticky; top: 88px; }
+    .device-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .stand {
+      width: min(100%, 280px);
+      margin: 0 auto;
+      aspect-ratio: 9 / 16;
+      background: linear-gradient(#fbfbfb, #e7e7e7);
+      border: 10px solid #f4f4f4;
+      border-bottom: 0;
+      border-radius: 8px 8px 0 0;
+      box-shadow: 0 24px 50px rgba(40, 30, 18, 0.18);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .oled-top {
+      flex: 1.25 1 0;
+      min-height: 0;
+      margin: 8px 8px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 18px 12px;
+      gap: 8px;
+      background: #111;
+      color: #f7f1e8;
+      border-radius: 2px;
+    }
+    .oled-top strong { font-family: "Gowun Batang", serif; font-size: 26px; font-weight: 700; }
+    .oled-top span { color: var(--gold-soft); font-size: 13px; letter-spacing: 0.08em; }
+    .oled-top.blank { background: #1a1a1a; }
+    .oled-top.blank strong, .oled-top.blank span { color: transparent; }
+    .void {
+      flex: 0.72 1 0;
+      min-height: 0;
+      margin: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 16px;
+    }
+    .schedule {
+      width: 100%;
+      flex: none;
+      background: #161616;
+      color: #f7f1e8;
+      border-radius: 4px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
+    }
+    .base {
+      height: 42px;
+      background: #f7f7f7;
+      border-top: 8px solid #f4f4f4;
+      box-shadow: 0 10px 0 #ededed;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 8px;
+      font-size: 14px;
+      color: rgba(247, 241, 232, 0.45);
+    }
+    .row.now { color: #f7f1e8; }
+    .row.now .time { color: var(--gold-soft); }
+    .row .time { font-variant-numeric: tabular-nums; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 8px; }
+    .tabs button {
+      font: inherit;
+      font-size: 14px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+    .tabs button[aria-selected="true"] {
+      background: var(--ink);
+      color: #faf8f5;
+      border-color: var(--ink);
+    }
+    .tabs button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+    .scene-note { margin: 8px 0 0; color: var(--muted); min-height: 4.5em; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    th, td { text-align: left; vertical-align: top; padding: 12px 10px; border-top: 1px solid var(--line); }
+    th { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .scroll { overflow-x: auto; }
+    .cards { display: grid; gap: 12px; }
+    details {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 4px 18px;
+    }
+    summary { cursor: pointer; font-weight: 600; padding: 12px 0; }
+    summary:focus-visible { outline: 2px solid var(--gold); }
+    details p { margin: 0 0 14px; }
+    .ask {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .ask article {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+    }
+    .ask span { display: block; color: var(--gold); font-size: 13px; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .hall-grid, .film-grid { display: grid; gap: 16px; }
+    .hall-grid { grid-template-columns: 1fr 1fr; }
+    .film-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    figure { margin: 0; }
+    figure img, .film-grid video {
+      width: 100%;
+      display: block;
+      border-radius: 14px;
+      background: #111;
+    }
+    figure figcaption, .film-card p { margin: 8px 0 0; font-size: 14px; color: var(--muted); }
+    .film-card video { aspect-ratio: 9 / 16; object-fit: cover; }
+    footer { padding: 28px 0 64px; color: var(--muted); font-size: 14px; }
+    @media (min-width: 861px) {
+      body { font-size: 18px; }
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 64px;
+      }
+      .stand {
+        width: auto;
+        height: min(78vh, calc(100vh - 140px), 920px);
+        margin: 0;
+      }
+      .oled-top strong { font-size: clamp(32px, 4vh, 48px); }
+      .oled-top span { font-size: 16px; }
+      .row {
+        font-size: 16px;
+        grid-template-columns: 4.2em 1fr;
+        gap: 10px;
+        white-space: nowrap;
+      }
+      h1 { font-size: clamp(44px, 4.2vw, 68px); }
+    }
+    @media (max-width: 860px) {
+      .hero-grid, .cols, .ask, .hall-grid { grid-template-columns: 1fr; }
+      .film-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .device-wrap { position: static; }
+      .bar-inner { align-items: flex-start; flex-direction: column; gap: 8px; padding: 10px 0; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">본문으로</a>
+  <header class="bar">
+    <div class="bar-inner">
+      <div class="brand">MBOX · 더리본</div>
+      <nav aria-label="제안 목차">
+        <a href="#places">예상 배치</a>
+        <a href="#films">영상</a>
+        <a href="#need">필요한 이유</a>
+        <a href="#effect">효과</a>
+        <a href="#screen">화면</a>
+        <a href="#protocol">프로토콜</a>
+        <a href="#content">내용</a>
+        <a href="#risk">리스크</a>
+        <a href="#ask">확인</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <div class="wrap hero">
+      <p class="kicker">협업 제안</p>
+      <div class="hero-grid">
+        <div>
+          <h1>투명 OLED에서<br>몇 시의 누구 결혼식인지<br>영상과 함께 나갑니다.</h1>
+          <p class="lede">더리본 담당자님께. 이 장비는 귀사에서도 운영하실 수 있을 만큼, 관리와 사용을 단순하게 구성하겠습니다. 저희는 영상 크리에이터 팀이 그날의 예식에 맞춰 콘텐츠를 올리는 프로세스 관리자와, 그 결과를 당일 화면에 내보내는 시간 제어 툴을 제공합니다.</p>
+          <p>당일 화면을 넘기는 일은 귀사 현장이 하십니다. 조작은 시나리오를 고르고, 다음 예식으로 넘기는 선에서 끝나게 구성하겠습니다. 촬영과 편집은 귀사가 이미 하시는 프로세스를 그대로 씁니다.</p>
+          <p class="muted">상부는 55인치 투명 OLED이고, 그 예식의 앨범이 나갑니다. 아래는 패널이 없는 빈 공간이라, 몇 시에 누구의 결혼식인지 식순은 그 자리에 별도의 디스플레이로 보여 줍니다.</p>
+        </div>
+        <div class="device-wrap" id="screen">
+          <div class="device-label"><span>상부 55인치 OLED</span><span>하부 식순은 별도 화면</span></div>
+          <div class="stand" aria-live="polite">
+            <div class="oled-top" id="oled-top">
+              <span id="top-kicker">14:00 앨범</span>
+              <strong id="top-title">김○○ · 이○○</strong>
+            </div>
+            <div class="void">
+              <div class="schedule" id="oled-bottom"></div>
+            </div>
+            <div class="base"></div>
+          </div>
+          <div class="tabs" role="tablist" aria-label="시나리오">
+            <button type="button" role="tab" id="tab-ceremony" aria-selected="true" aria-controls="scene-note">예식</button>
+            <button type="button" role="tab" id="tab-wait" aria-selected="false" aria-controls="scene-note">대기</button>
+            <button type="button" role="tab" id="tab-promo" aria-selected="false" aria-controls="scene-note">홍보</button>
+            <button type="button" role="tab" id="tab-blank" aria-selected="false" aria-controls="scene-note">공백</button>
+          </div>
+          <p class="scene-note" id="scene-note"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <section class="block" id="places">
+        <h2>홀별 예상 배치</h2>
+        <p class="muted">W웨딩시티 로비 사진을 바탕으로, 상부 55인치 OLED와 하부 식순 화면이 서는 위치를 예상한 이미지입니다. 실제 기둥과 가구 위치와는 다를 수 있습니다. 시각은 예시입니다.</p>
+        <div class="hall-grid">
+          <figure class="paper">
+            <img src="media/sweet-garden-5f-display.jpg" alt="스위트가든 5층 로비에 상부 OLED와 하부 식순 화면이 선 예상 이미지">
+            <figcaption>스위트가든 5F. 샹들리에 왼쪽, 통로 옆.</figcaption>
+          </figure>
+          <figure class="paper">
+            <img src="media/convention-7f-display.jpg" alt="컨벤션홀 7층 로비에 상부 OLED와 하부 식순 화면이 선 예상 이미지">
+            <figcaption>컨벤션홀 7F. 넓은 바닥의 오른쪽. 입구 문은 막지 않습니다.</figcaption>
+          </figure>
+          <figure class="paper">
+            <img src="media/iris-4f-display.jpg" alt="아이리스홀 4층 로비에 상부 OLED와 하부 식순 화면이 선 예상 이미지">
+            <figcaption>아이리스홀 4F. 원형 조명과 안내 데스크 옆.</figcaption>
+          </figure>
+          <figure class="paper">
+            <img src="media/grand-4f-display.jpg" alt="그랜드홀 4층 로비에 상부 OLED와 하부 식순 화면이 선 예상 이미지">
+            <figcaption>그랜드홀 4F. 화분 옆. 문 앞과 계단은 비워 둡니다.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="block" id="films">
+        <h2>만들어 둔 영상 콘텐츠</h2>
+        <p>커플 사진으로 이미 만들어 둔 세로 영상입니다. 상부 55인치 OLED에 올릴 앨범 영상의 샘플이며, 아래 빈 공간의 식순 화면과 함께 쓰는 쪽입니다. 인물은 제작용 예시이고, 더리본의 실제 예약이 아닙니다.</p>
+        <div class="film-grid">
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/01-이서준-김하은/couple-01-classic-hall.jpg" src="media/videos/01-이서준-김하은.mp4"></video>
+            <p>이서준 · 김하은</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/02-박민재-최수아/couple-02-ivory-chapel.jpg" src="media/videos/02-박민재-최수아.mp4"></video>
+            <p>박민재 · 최수아</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/03-정도윤-한지민/couple-03-hanbok.jpg" src="media/videos/03-정도윤-한지민.mp4"></video>
+            <p>정도윤 · 한지민</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/04-강시우-오예린/couple-04-garden-terrace.jpg" src="media/videos/04-강시우-오예린.mp4"></video>
+            <p>강시우 · 오예린</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/05-윤우진-배채원/couple-05-staircase.jpg" src="media/videos/05-윤우진-배채원.mp4"></video>
+            <p>윤우진 · 배채원</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/06-장현우-신나연/couple-06-candle-reception.jpg" src="media/videos/06-장현우-신나연.mp4"></video>
+            <p>장현우 · 신나연</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/07-조준호-임소율/couple-07-first-look.jpg" src="media/videos/07-조준호-임소율.mp4"></video>
+            <p>조준호 · 임소율</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/08-한태민-문유진/couple-08-autumn.jpg" src="media/videos/08-한태민-문유진.mp4"></video>
+            <p>한태민 · 문유진</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/09-서건우-류하늘/couple-09-studio-white.jpg" src="media/videos/09-서건우-류하늘.mp4"></video>
+            <p>서건우 · 류하늘</p>
+          </article>
+          <article class="film-card">
+            <video controls preload="metadata" poster="media/couples/10-노성민-양다은/couple-10-ribbon-aisle.jpg" src="media/videos/10-노성민-양다은.mp4"></video>
+            <p>노성민 · 양다은</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="block" id="need">
+        <h2>현재 단계에서 필요한 이유</h2>
+        <div class="paper">
+          <p>귀사는 촬영과 편집을 이미 하고 계십니다. 지금 비어 있는 것은 영상을 새로 만드는 일이 아닙니다. 만든 파일이 투명 화면에서, 그날 몇 시의 누구 결혼식인지와 함께 나가는 자리입니다.</p>
+          <p>예식은 예정 시각대로만 끝나지 않습니다. 같은 날 다음 커플이 같은 화면으로 이어집니다. 편집실 모니터에서 검게 보이는 파일도, 이 유리에서는 공간을 흐리게 할 수 있습니다. 기존 편집과 장비의 반복 재생은 시간표와 영상을 하루의 예식으로 묶어 주지 못합니다.</p>
+        </div>
+      </section>
+
+      <section class="block" id="effect">
+        <h2>기대하는 개선과 효과</h2>
+        <div class="cols">
+          <article class="paper">
+            <h3>운영</h3>
+            <ul class="clean">
+              <li>편집과 송출이 나뉩니다. 몇 시의 누구 결혼식인지는 프로세스 관리자가 맡습니다.</li>
+              <li>다음 예식으로 넘어갈 때, 앞 커플의 이름과 영상이 남지 않습니다.</li>
+              <li>예식이 밀려도 하단이 시계만 보고 다음 커플로 바뀌지 않습니다.</li>
+              <li>조건에 맞지 않는 파일은 다른 영상으로 바뀌지 않고, 유리는 투명한 공백으로 남습니다.</li>
+              <li>확정은 크리에이터 팀의 담당자가 하고, 진행은 현장이 합니다.</li>
+            </ul>
+          </article>
+          <article class="paper">
+            <h3>하객과 두 사람</h3>
+            <ul class="clean">
+              <li>로비의 하객은 몇 시에 누구의 결혼식이 있는지를 화면에서 볼 수 있습니다.</li>
+              <li>앨범은 새 공정 없이, 이미 만드신 결과물이 시간표와 함께 나갑니다.</li>
+              <li>홍보의 방향이 정해지면, 대기 동선에서 두 사람의 모습이 맺어지는 과정이 인상으로 남을 수 있습니다.</li>
+            </ul>
+            <p class="muted">발걸음이 멈추고 인연으로 이어지는지는 그 영상을 보신 뒤에 판단하실 일입니다. 이번 단계의 효과는 그 자리를 예식과 분리해 두는 데까지입니다.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="block" id="role">
+        <h2>역할</h2>
+        <div class="paper">
+          <ul class="clean">
+            <li>프로세스 관리자와 시간 제어 툴은 저희가 제공합니다. 크리에이터 팀은 예식마다 시간과 신랑·신부, 상단 영상을 넣고, 현장은 다음 예식으로 화면을 넘깁니다.</li>
+            <li>촬영, 편집, 마감은 귀사의 기존 프로세스를 따릅니다. 프로세스 관리자는 편집기가 아닙니다.</li>
+            <li>장비의 유지와 보수는 협의 항목입니다. 방문과 원격, 부품, 비용 부담은 아직 정하지 않았습니다.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="block" id="protocol">
+        <h2>프로토콜과 프로세스 관리자</h2>
+        <div class="cols">
+          <article class="paper">
+            <h3>프로토콜</h3>
+            <ul class="clean">
+              <li>상부는 55인치 투명 OLED입니다. 칸에 올리는 파일은 이 영상입니다.</li>
+              <li>아래 빈 공간의 식순은 별도 디스플레이입니다. 몇 시, 신랑, 신부가 한 줄입니다.</li>
+              <li>그날 확정된 예식을 시간 순으로 보여 주고, 지금 예식을 구분합니다.</li>
+              <li>예식 진행 중 상단에는 홍보를 넣지 않습니다.</li>
+              <li>검정 조건에 맞지 않으면 확정 전에 알려 드리며, 상단은 공백으로 남고 시간표는 유지됩니다.</li>
+            </ul>
+          </article>
+          <article class="paper">
+            <h3>크리에이터 팀이 쓰는 화면</h3>
+            <ul class="clean">
+              <li>날짜를 열고, 예식을 넣습니다. 칸 하나는 시각, 신랑, 신부, 상단 영상입니다.</li>
+              <li>대기, 예식, 홍보, 공백은 그 시간대의 시나리오입니다. 예식 영상과 홍보는 같은 시각에 겹치지 않습니다.</li>
+              <li>확정은 날짜마다 한 명입니다. 확정 전에는 화면에 나가지 않습니다.</li>
+              <li>확정된 하루는 장비에 내려둡니다. 통신이 끊겨도 시간표와 영상은 넘어갑니다.</li>
+              <li>확정 이후 현장은 다음 예식만 넘깁니다. 시간, 이름, 영상은 담당자만 바꿉니다.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="block" id="content">
+        <h2>상단에 올릴 내용</h2>
+        <p class="muted">하부 식순 화면은 예식과 대기에서 고정입니다. 우선순위는 하객에게 먼저 필요한 정보, 고객 접근성은 로비에서 읽히는가, 유지가능성은 기존 프로세스로 다음 예식에도 돌릴 수 있는가입니다.</p>
+        <div class="paper scroll">
+          <table>
+            <thead>
+              <tr><th>내용</th><th>우선순위</th><th>고객 접근성</th><th>유지가능성</th><th>두는 곳</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>오늘의 예식 시간표</td><td>1</td>
+                <td>높음. 몇 시에 누구의 결혼식인지 보입니다. 홀의 먼 자리에서는 목록 전체가 어렵습니다.</td>
+                <td>중간. 시각과 이름이 맞아야 합니다.</td>
+                <td>하부 식순 화면. 예식·대기. 홍보 중에는 확인된 다음 예식만</td>
+              </tr>
+              <tr>
+                <td>신랑·신부 앨범</td><td>1</td>
+                <td>높음. 그 시각의 두 사람이 바로 보입니다.</td>
+                <td>높음. 귀사 촬영·편집을 그대로 씁니다.</td>
+                <td>예식 상단, 대기 상단</td>
+              </tr>
+              <tr>
+                <td>모습이 맺어지는 과정</td><td>2, 미확정</td>
+                <td>대기 동선에서는 높습니다. 예식 중에는 식을 가립니다.</td>
+                <td>중간. 방향이 정해져야 합니다.</td>
+                <td>대기 또는 홍보 상단. 확정 후</td>
+              </tr>
+              <tr>
+                <td>브랜드 한 줄</td><td>3</td>
+                <td>중간. 짧아서 읽히고, 설명은 되지 않습니다.</td>
+                <td>높음. 수정이 거의 없습니다.</td>
+                <td>앨범이 없는 대기 상단</td>
+              </tr>
+              <tr>
+                <td>상품, 가격, 장례, 크루즈</td><td>올리지 않음</td>
+                <td>낮음. 웨딩 공간에서 다른 상품으로 오인됩니다.</td>
+                <td>문구와 심의가 자주 바뀝니다.</td>
+                <td>사용하지 않음</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>브랜드 한 줄은 귀사가 이미 쓰시는 말 안에서만 고르겠습니다. 끊이지 않는 인연, 다시 태어나는 순간, 곁의 동반자입니다.</p>
+      </section>
+
+      <section class="block" id="options">
+        <h2>현재 보유한 선택지</h2>
+        <div class="paper">
+          <p>앞으로 어떤 콘텐츠로 진행될지는 아직 알 수 없습니다. 현재 MBOX가 보유한 것은 두 가지이며, 기본 시나리오를 대체하지 않습니다.</p>
+          <ul class="clean">
+            <li>신랑·신부의 사진으로, AI를 활용해 두 사람이 춤추는 영상을 만들 수 있습니다.</li>
+            <li>신랑·신부의 아바타를 제작해, 인사하는 영상을 만들 수 있습니다.</li>
+          </ul>
+          <p class="muted">둘 다 송출 전에 귀사 편집을 거칩니다. 예식 상단의 기본값은 앨범입니다.</p>
+        </div>
+      </section>
+
+      <section class="block" id="risk">
+        <h2>리스크와 대응</h2>
+        <p class="muted">각 항목은 실제로 벌어지는 상황입니다.</p>
+        <div class="cards">
+          <details open>
+            <summary>예식이 예정 시각보다 늦는 경우</summary>
+            <p>14시 예식이 끝나기 전에 시계가 16시를 가리킵니다. 14시 하객이 아직 로비에 있는데, 하단은 이미 16시 이름을 지금 예식으로 보여 줍니다.</p>
+            <p>예약 시각과 함께, 현장에서 다음 예식으로 넘기는 조작을 둡니다. 넘기기 전에는 14시의 이름과 영상이 유지됩니다.</p>
+          </details>
+          <details>
+            <summary>앨범이 하객보다 늦게 도착하는 경우</summary>
+            <p>14시 영상이 아직 없습니다. 하객이 들어왔는데 상단이 비어 있거나, 다른 시각의 영상이 남아 있습니다.</p>
+            <p>하단의 시각과 이름은 유지합니다. 상단은 홍보로 넘어가지 않고, 브랜드 한 줄 또는 공백으로 둡니다. 빈 영상은 담당자가 채웁니다.</p>
+          </details>
+          <details>
+            <summary>홍보가 식을 가리는 경우</summary>
+            <p>14시 예식 중에 상단에서 시설 안내가 나갑니다. 시선이 두 사람에게서 회사 소개로 옮겨 갑니다.</p>
+            <p>예식 시나리오에는 홍보를 넣지 않습니다. 방향이 정해져도 대기 동선으로 한정합니다.</p>
+          </details>
+          <details>
+            <summary>하객이 멈춰 동선이 막히는 경우</summary>
+            <p>대기 영상의 인상이 강해 로비 한가운데에서 입장이 밀립니다.</p>
+            <p>그 영상은 머무를 수 있는 면과 대기 시간에 두고, 길이는 짧게 합니다.</p>
+          </details>
+          <details>
+            <summary>일반 영상 파일이 유리를 흐리게 하는 경우</summary>
+            <p>편집실 모니터에서는 배경이 검습니다. 유리 앞에 서면 공간 전체에 회색 막이 있습니다. 검정 화소가 투명으로 보이기 때문입니다.</p>
+            <p>마감은 대신하지 않습니다. 파일 조건을 편집 과정에 맞추어 전달하고, 조건에 맞지 않으면 확정 전에 알립니다.</p>
+          </details>
+          <details>
+            <summary>시간표가 서는 자리에서 읽히지 않는 경우</summary>
+            <p>로비에서는 시각과 이름이 읽힙니다. 홀의 먼 자리에서는 목록이 들어오지 않습니다.</p>
+            <p>로비는 하루의 시간표를 유지합니다. 홀에서는 지금 예식의 시각과 이름만 키우겠습니다.</p>
+          </details>
+          <details>
+            <summary>예시 일정이 오늘 예식처럼 나가는 경우</summary>
+            <p>시안의 시간과 이름이 그대로 켜지면, 하객이 다른 커플의 예식으로 착각합니다.</p>
+            <p>확인되지 않은 시간과 이름은 송출하지 않습니다. 이 페이지의 이름도 예시입니다.</p>
+          </details>
+          <details>
+            <summary>다른 사업의 장면이 섞이는 경우</summary>
+            <p>홍보 중간에 하얀 리본, 가격, 납입 안내가 나가면 웨딩 로비에서 장례나 상품 안내로 읽힙니다.</p>
+            <p>가격, 납입, 크루즈, 가전, 장례 표식은 웨딩 화면에서 제외합니다.</p>
+          </details>
+          <details>
+            <summary>동의하지 않은 얼굴이 로비에 나오는 경우</summary>
+            <p>앨범에 하객 얼굴이 섞이거나, 커플이 로비 공개를 원하지 않았습니다.</p>
+            <p>동의와 자를 장면은 귀사 프로세스에서 판단합니다. 하단 이름도 확정된 예식만 넣습니다.</p>
+          </details>
+          <details>
+            <summary>AI로 만든 영상이 두 사람과 다르게 보이는 경우</summary>
+            <p>춤 영상에서 얼굴이 흔들리거나, 아바타 인사가 실제 인상과 다릅니다.</p>
+            <p>선택지일 뿐 기본 상영은 아닙니다. 편집 확인 전에는 앨범을 유지합니다.</p>
+          </details>
+          <details>
+            <summary>유지·보수 주체가 정해지기 전에 화면이 꺼지는 경우</summary>
+            <p>예식 30분 전 유리가 켜지지 않습니다. 출동 약정은 아직 없습니다.</p>
+            <p>출동 시간은 약속하지 않습니다. 당일 확인은 전원과 시나리오 재선택까지입니다. 복구되지 않으면 공백으로 유리를 비워 둡니다.</p>
+          </details>
+          <details>
+            <summary>장비에 재생 기능이 이미 있는 경우</summary>
+            <p>파일 반복 재생만으로는 시간표와 다음 예식 전환이 되지 않습니다.</p>
+            <p>차이는 예식 칸, 시나리오 전환, 검정이 유지되는 상영입니다. 기본 기능과 겹치면 빼겠습니다.</p>
+          </details>
+          <details>
+            <summary>같은 예식에 파일이 두 번 올라가는 경우</summary>
+            <p>14시 이름은 맞는데 상단은 다른 커플의 앨범입니다.</p>
+            <p>확정 담당은 날짜마다 한 명입니다. 현장은 다음 예식만 넘깁니다.</p>
+          </details>
+          <details>
+            <summary>프로세스 관리자가 편집기와 겹치는 경우</summary>
+            <p>같은 영상을 편집 프로그램과 이 도구에서 두 번 만지면, 최종 파일이 헷갈립니다.</p>
+            <p>자르기와 효과는 넣지 않습니다. 도구는 그 파일을 몇 시의 누구 결혼식에 쓸지만 관리합니다.</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="block" id="ask">
+        <h2>함께 정해 주시면 하는 것</h2>
+        <div class="ask">
+          <article><span>01</span>첫 화면이 놓일 장소입니다. 로비와 홀에 따라 하부 식순 화면의 크기가 달라집니다.</article>
+          <article><span>02</span>하루의 시간과 이름을 확정하실 담당입니다.</article>
+          <article><span>03</span>브랜드 한 줄에 귀사의 기존 문구를 써도 되는지의 여부입니다.</article>
+        </div>
+        <p>장소와 담당이 정해지는 대로, 그 화면에 맞춘 시안과 함께 설명을 드리겠습니다.</p>
+      </section>
+      <footer>이 페이지의 시각과 성함은 화면 구성을 보여 드리는 예시이며, 더리본의 당일 예식이 아닙니다.</footer>
+    </div>
+  </main>
+  <script>
+    const scenes = {
+      ceremony: {
+        kicker: "14:00 앨범",
+        title: "김○○ · 이○○",
+        blank: false,
+        rows: [
+          ["11:00", "박○○ · 최○○", ""],
+          ["14:00", "김○○ · 이○○", "now"],
+          ["16:00", "정○○ · 한○○", ""]
+        ],
+        note: "예식. 상부 OLED는 그 커플의 앨범입니다. 아래 별도 화면이 14시 식순을 구분합니다. 홍보는 넣지 않습니다."
+      },
+      wait: {
+        kicker: "다음 예식 앨범",
+        title: "김○○ · 이○○",
+        blank: false,
+        rows: [
+          ["11:00", "박○○ · 최○○", ""],
+          ["14:00", "김○○ · 이○○", "now"],
+          ["16:00", "정○○ · 한○○", ""]
+        ],
+        note: "대기. 하객이 도착하는 시간입니다. 앨범이 없으면 상단은 브랜드 한 줄이거나 비우고, 홍보로 넘어가지 않습니다."
+      },
+      promo: {
+        kicker: "미확정",
+        title: "모습이 맺어지는 과정",
+        blank: false,
+        rows: [["16:00", "정○○ · 한○○", "now"]],
+        note: "홍보. 예식이 없는 시간입니다. 회사 소개가 아니라 두 사람의 모습이 맺어지는 과정이며, 아직 확정 전입니다. 확인된 다음 예식만 하부 식순 화면에 둡니다."
+      },
+      blank: {
+        kicker: "",
+        title: "",
+        blank: true,
+        rows: [
+          ["14:00", "김○○ · 이○○", "now"],
+          ["16:00", "정○○ · 한○○", ""]
+        ],
+        note: "공백. 상부 OLED 파일이 없거나 조건에 맞지 않으면 검정을 유지해 유리가 투명하게 남습니다. 하부 식순 화면은 그대로 둘 수 있습니다."
+      }
+    };
+
+    const topPanel = document.getElementById("oled-top");
+    const kicker = document.getElementById("top-kicker");
+    const title = document.getElementById("top-title");
+    const bottom = document.getElementById("oled-bottom");
+    const note = document.getElementById("scene-note");
+    const tabs = [...document.querySelectorAll(".tabs button")];
+
+    function render(key) {
+      const scene = scenes[key];
+      topPanel.classList.toggle("blank", scene.blank);
+      kicker.textContent = scene.kicker;
+      title.textContent = scene.title;
+      bottom.replaceChildren();
+      scene.rows.forEach(([time, names, state]) => {
+        const row = document.createElement("div");
+        row.className = "row" + (state ? " " + state : "");
+        const t = document.createElement("div");
+        t.className = "time";
+        t.textContent = time;
+        const n = document.createElement("div");
+        n.textContent = names;
+        row.append(t, n);
+        bottom.append(row);
+      });
+      note.textContent = scene.note;
+      tabs.forEach((tab) => {
+        const on = tab.id === "tab-" + key;
+        tab.setAttribute("aria-selected", on ? "true" : "false");
+      });
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => render(tab.id.replace("tab-", "")));
+    });
+    render("ceremony");
+
+    document.querySelectorAll(".film-grid video").forEach((video) => {
+      video.addEventListener("play", () => {
+        document.querySelectorAll(".film-grid video").forEach((other) => {
+          if (other !== video) other.pause();
+        });
+      });
+    });
+  </script>
+</body>
+</html>

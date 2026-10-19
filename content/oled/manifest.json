@@ -1,0 +1,319 @@
+{
+  "canvas": {
+    "pixels": [
+      1080,
+      1920
+    ],
+    "background": "#000000",
+    "mode": "RGB"
+  },
+  "install": "PNG files only. #000000 is the transparent pixel. Preview JPGs are simulations.",
+  "schedule": "1홀 14:00 and 2홀 15:00 are placeholders, not The Ribbon's timetable.",
+  "names": "Fictional sample couples. Ceremony type uses given names. Lobby type uses full names.",
+  "steps_shown": [
+    "신랑 입장",
+    "신부 입장",
+    "혼인서약"
+  ],
+  "removed": [
+    "Congratulatory guestbook messages"
+  ],
+  "not_built": [
+    "Live AR mirror",
+    "Proximity sensor",
+    "Real package prices"
+  ],
+  "checks": [
+    {
+      "file": "ceremony/initials/01.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.8624,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/initials/02.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.8611,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/initials/03.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.8614,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/initials/04.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.8618,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/initials/05.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.8596,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/initials/06.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.8623,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/initials/07.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.8603,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/initials/08.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.8613,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/initials/09.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.861,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/initials/10.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.8612,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/steps/01.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9188,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/steps/02.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9187,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/steps/03.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9194,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/petals/00.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.845,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "ceremony/petals/12.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.8459,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/idle.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9993,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/halls.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9892,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/01.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9505,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/02.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9508,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/03.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9506,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/04.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9507,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/05.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9507,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/06.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9506,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/07.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9504,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/08.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9505,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/09.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9504,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "lobby/10.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9506,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "photozone/frame.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.996,
+      "dirty_near_black": 0
+    },
+    {
+      "file": "consult/package.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "mode": "RGB",
+      "black_ratio": 0.9945,
+      "dirty_near_black": 0
+    }
+  ],
+  "failed_checks": []
+}

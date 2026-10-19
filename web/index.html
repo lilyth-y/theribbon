@@ -94,7 +94,7 @@
     ul.clean { margin: 0; padding-left: 1.1em; }
     ul.clean li { margin: 0.35em 0; }
     .muted { color: var(--muted); }
-    .device-wrap { position: sticky; top: 88px; }
+    .device-wrap { min-width: 0; }
     .device-label {
       display: flex;
       justify-content: space-between;
@@ -103,9 +103,8 @@
       margin-bottom: 10px;
     }
     .stand {
-      width: min(100%, 280px);
+      width: min(100%, 360px);
       margin: 0 auto;
-      aspect-ratio: 9 / 16;
       background: linear-gradient(#fbfbfb, #e7e7e7);
       border: 10px solid #f4f4f4;
       border-bottom: 0;
@@ -116,8 +115,9 @@
       position: relative;
     }
     .oled-top {
-      flex: 1.12 1 0;
-      min-height: 0;
+      flex: none;
+      width: calc(100% - 16px);
+      aspect-ratio: 9 / 16;
       margin: 8px 8px 0;
       display: flex;
       flex-direction: column;
@@ -126,7 +126,7 @@
       text-align: center;
       padding: 18px 12px;
       gap: 8px;
-      background: #111;
+      background: #000;
       color: #f7f1e8;
       border-radius: 2px;
       position: relative;
@@ -137,8 +137,8 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center 22%;
+      object-fit: contain;
+      object-position: center;
       display: none;
       background: #000;
     }
@@ -151,19 +151,14 @@
     .oled-top.blank { background: #1a1a1a; }
     .oled-top.blank strong, .oled-top.blank span { color: transparent; }
     .void {
-      flex: 0.88 1 0;
+      flex: none;
       min-height: 0;
-      margin: 0 16px;
+      margin: 8px 10px 0;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      padding-bottom: 16px;
-    }
-    .void.day {
-      justify-content: stretch;
-      margin-top: 8px;
-      padding-bottom: 10px;
+      align-items: stretch;
+      justify-content: flex-start;
+      padding-bottom: 12px;
     }
     .schedule {
       width: 100%;
@@ -212,9 +207,9 @@
     .row.now .time { color: var(--gold-soft); }
     .row .time { font-variant-numeric: tabular-nums; }
     .schedule.day {
-      flex: 1;
+      flex: none;
       min-height: 0;
-      overflow: auto;
+      overflow: visible;
       gap: 6px;
       padding: 12px 10px;
       justify-content: center;
@@ -267,7 +262,7 @@
       border-color: var(--ink);
     }
     .tabs button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-    .scene-note { margin: 8px 0 0; color: var(--muted); min-height: 4.5em; }
+    .scene-note { margin: 8px 0 0; color: var(--muted); min-height: 4.5em; overflow-wrap: anywhere; }
     table { width: 100%; border-collapse: collapse; font-size: 15px; }
     th, td { text-align: left; vertical-align: top; padding: 12px 10px; border-top: 1px solid var(--line); }
     th { font-size: 13px; color: var(--muted); font-weight: 600; }
@@ -323,25 +318,20 @@
     @media (min-width: 861px) {
       body { font-size: 18px; }
       .hero-grid {
-        grid-template-columns: minmax(0, 1fr) auto;
-        align-items: center;
-        gap: 64px;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+        align-items: start;
+        gap: 56px;
       }
-      .stand {
-        width: auto;
-        height: min(78vh, calc(100vh - 140px), 920px);
-        margin: 0;
-      }
-      .oled-top strong { font-size: clamp(32px, 4vh, 48px); }
-      .oled-top span { font-size: 16px; }
+      .stand { width: 100%; margin: 0; }
+      .oled-top strong { font-size: clamp(28px, 3vh, 40px); }
+      .oled-top span { font-size: 15px; }
       .row {
         font-size: 16px;
-        grid-template-columns: 4.2em 1fr;
+        grid-template-columns: 4.2em minmax(0, 1fr);
         gap: 10px;
-        white-space: nowrap;
       }
-      .schedule.day .row { font-size: 17px; }
-      h1 { font-size: clamp(44px, 4.2vw, 68px); }
+      .schedule.day .row { font-size: 16px; }
+      h1 { font-size: clamp(40px, 3.6vw, 60px); }
     }
     @media (max-width: 860px) {
       .hero-grid, .cols, .ask, .hall-grid { grid-template-columns: 1fr; }
